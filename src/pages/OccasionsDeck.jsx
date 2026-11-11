@@ -15,12 +15,15 @@ const placeholderPosters = [
 ];
 
 const posters = [...placeholderPosters, ...placeholderPosters];
+// How long the cards take to catch up with the page. Higher = floatier.
+const SCROLL_SMOOTH_TIME = 0.5;
 const wrap = (value, length) => ((value % length) + length) % length;
 const easeToward = (value, target, blend) => (
   Math.abs(target - value) < 0.0001 ? target : value + (target - value) * blend
 );
 
 export default function OccasionsDeck() {
+  const sectionRef = useRef(null);
   const deckRef = useRef(null);
   const [lifted, setLifted] = useState(null);
 
@@ -37,6 +40,8 @@ export default function OccasionsDeck() {
     let previousSquare;
     let elapsed = 0;
     let pace = 1;
+    let scrollSmoothed;
+    let scrollVelocity = 0;
     let pointer;
 
     function trackPointer(event) {
@@ -64,7 +69,31 @@ export default function OccasionsDeck() {
       }
       previousTime = time;
 
-      const scrollOffset = motionEnabled ? Math.max(-height, Math.min(height, -top)) : 0;
+      // Scroll drives the cards through a critically damped ease (no overshoot,
+      // ~130ms time constant, measured from Partiful) so they trail the page
+      // and settle, instead of being pinned to the scrollbar.
+      // The stage is pinned (sticky) for the section's extra runway, so progress
+      // comes from the section, not the deck, whose own top stays fixed while pinned.
+      const section = sectionRef.current;
+      const sectionTop = section.getBoundingClientRect().top;
+      const runway = section.offsetHeight - height;
+      const scrollTarget = motionEnabled ? Math.max(-height, Math.min(height + runway, -sectionTop)) : 0;
+      if (scrollSmoothed === undefined || !motionEnabled) {
+        scrollSmoothed = scrollTarget;
+        scrollVelocity = 0;
+      } else if (delta > 0) {
+        // Critically damped spring: velocity is continuous, so wheel notches
+        // ramp in and out instead of jolting. SCROLL_SMOOTH_TIME is in seconds.
+        const dt = delta / 1000;
+        const omega = 2 / SCROLL_SMOOTH_TIME;
+        const x = omega * dt;
+        const decay = 1 / (1 + x + 0.48 * x * x + 0.235 * x ** 3);
+        const change = scrollSmoothed - scrollTarget;
+        const temp = (scrollVelocity + omega * change) * dt;
+        scrollVelocity = (scrollVelocity - omega * temp) * decay;
+        scrollSmoothed = scrollTarget + (change + temp) * decay;
+      }
+      const scrollOffset = scrollSmoothed;
       const travel = (elapsed * 0.02 + scrollOffset * 0.72) * width / 1521;
       const waveAmplitude = motionEnabled ? height * (isCompact ? 0.011 : 0.015) : 0;
       const waveTime = elapsed / 6400;
@@ -116,6 +145,7 @@ export default function OccasionsDeck() {
     function requestRender() {
       cancelAnimationFrame(frame);
       previousTime = undefined;
+      scrollSmoothed = undefined; // re-entering view or resizing: snap, don't sweep from a stale offset
       frame = requestAnimationFrame(render);
     }
 
@@ -142,7 +172,8 @@ export default function OccasionsDeck() {
   }, []);
 
   return (
-    <section className="orbit-occasions" aria-labelledby="orbit-occasions-title">
+    <section className="orbit-occasions" aria-labelledby="orbit-occasions-title" ref={sectionRef}>
+      <div className="orbit-occasions-stage">
       <div className="orbit-occasions-heading">
         <h2 id="orbit-occasions-title">A million<br />reasons to show up</h2>
         <p>For every kind of campus plan.</p>
@@ -163,6 +194,7 @@ export default function OccasionsDeck() {
             </span>
           </button>
         ))}
+      </div>
       </div>
     </section>
   );
