@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
-  CalendarDays, Coffee, Flag, GraduationCap, Laptop, MapPin, Mic2, Music2,
+  CalendarDays, Coffee, Flag, GraduationCap, Laptop, Mic2, Music2,
   Orbit, Sparkles, Trophy, Users, Zap,
 } from "lucide-react";
 import "./landing.css";
@@ -11,6 +11,21 @@ const categories = [
   [Trophy, "Sports"], [Users, "Club meetups"],
   [Coffee, "Hangouts"], [Flag, "Campus drives"], [Mic2, "Open mics"],
 ];
+
+const campusHighlights = [
+  { label: "MUJ", description: "Campus life at Manipal University Jaipur.", style: "university" },
+  { label: "Student Clubs", description: "Find the clubs that share your interests.", style: "clubs" },
+  { label: "Communities", description: "Find your people and join the conversation.", style: "communities" },
+  { label: "Campus Events", description: "See what’s happening and make a plan.", style: "events" },
+  { label: "LocaliTea", description: "Catch up on what students are talking about.", style: "tea" },
+];
+
+const marqueeSlides = [...campusHighlights, ...campusHighlights];
+const marqueeSideSlots = Math.floor((marqueeSlides.length - 1) / 2);
+
+function marqueeSlot(index, center) {
+  return (index - center + marqueeSideSlots + marqueeSlides.length) % marqueeSlides.length - marqueeSideSlots;
+}
 
 const posters = [
   { name: "Campus After Hours", type: "CAMPUS LIFE", image: "/muj.jpg", color: "#dba7fa" },
@@ -92,6 +107,68 @@ function LandingHeader() {
   );
 }
 
+function CampusMarquee() {
+  const region = useRef(null);
+  const [visible, setVisible] = useState(false);
+  const [selection, setSelection] = useState({ active: 2, previous: 2 });
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      setVisible(entry.intersectionRatio >= 0.25);
+    }, { threshold: 0.25 });
+    observer.observe(region.current);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!visible) return;
+    const element = region.current;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const timer = window.setInterval(() => {
+      if (document.hidden || reducedMotion.matches || element.matches(":has(:focus-visible)")) return;
+      setSelection(({ active }) => ({ active: (active + 1) % marqueeSlides.length, previous: active }));
+    }, 3200);
+    return () => window.clearInterval(timer);
+  }, [visible, selection]);
+
+  return (
+    <section className="orbit-landing-marquee" aria-label="Explore campus life" ref={region}>
+      <div className="orbit-landing-marquee-card" aria-hidden="true" />
+      <div className="orbit-landing-marquee-track">
+        {marqueeSlides.map(({ label, description, style }, index) => {
+          const slot = marqueeSlot(index, selection.active);
+          const previousSlot = marqueeSlot(index, selection.previous);
+          const centered = slot === 0;
+          const descriptionId = `orbit-marquee-description-${index}`;
+          return (
+            <div
+              className="orbit-landing-marquee-slide"
+              data-active={centered || undefined}
+              data-wrapped={Math.abs(slot - previousSlot) > marqueeSideSlots || undefined}
+              inert={Math.abs(slot) > 2 ? "" : undefined}
+              style={{ "--marquee-slot": slot }}
+              key={index}
+            >
+              <button
+                className="orbit-landing-marquee-wordmark"
+                data-style={style}
+                type="button"
+                aria-pressed={centered}
+                aria-describedby={centered ? descriptionId : undefined}
+                tabIndex={Math.abs(slot) <= 1 ? 0 : -1}
+                onClick={() => setSelection(({ active }) => ({ active: index, previous: active }))}
+              >
+                {label}
+              </button>
+              <p id={descriptionId} aria-hidden={!centered}>{description}</p>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
 function Poster({ poster }) {
   return (
     <div className="orbit-landing-poster" style={{ "--poster-color": poster.color }}>
@@ -132,11 +209,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <div className="orbit-landing-strip" aria-label="Explore campus life">
-          {[[MapPin, "MUJ"], [Users, "Student clubs"], [Orbit, "Communities"], [CalendarDays, "Campus events"], [Zap, "LocaliTea"]].map(([Icon, label]) => (
-            <span key={label}><Icon size={23} aria-hidden="true" />{label}</span>
-          ))}
-        </div>
+        <CampusMarquee />
 
         <section className="orbit-landing-intro">
           <h2>Your campus. All in one place.</h2>
