@@ -1,9 +1,16 @@
 .orbit-occasions {
+  --occasion-stage-height: max(590px, 100svh);
   position: relative;
   isolation: isolate;
-  height: max(590px, 100svh);
+  height: var(--occasion-stage-height);
   overflow-x: clip;
   overflow-y: visible;
+}
+
+/* Not pinned: the page scrolls past normally while the cards travel. */
+.orbit-occasions-stage {
+  position: relative;
+  height: 100%;
 }
 
 .orbit-occasions-heading {
@@ -49,6 +56,10 @@
   pointer-events: none;
   cursor: pointer;
   touch-action: pan-y;
+  /* Own compositor layer: the card is moved every frame from JS, so it must
+     not be repainted each time. */
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
 /* The hit area stays on the deck while the artwork lifts, so the card
@@ -104,7 +115,7 @@
 }
 
 @media (max-width: 800px) {
-  .orbit-occasions { height: clamp(460px, 82svh, 620px); }
+  .orbit-occasions { --occasion-stage-height: clamp(460px, 82svh, 620px); }
   .orbit-occasions-heading { padding: 70px 24px 0; }
   .orbit-landing main .orbit-occasions-heading h2 { font-size: clamp(35px, 7vw, 50px); }
   .orbit-landing main .orbit-occasions-heading p { font-size: 16px; }
