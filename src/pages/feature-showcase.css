@@ -1,0 +1,227 @@
+.orbit-showcase {
+  /* Total height decides how long the phone stays pinned. */
+  --showcase-height: 420svh;
+  --phone-height: min(86svh, 760px);
+  --phone-ratio: 9 / 19.5;
+  position: relative;
+  height: var(--showcase-height);
+  background: #111;
+  color: #fff;
+}
+
+.orbit-showcase-stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  display: grid;
+  place-items: center;
+  overflow: clip;
+}
+
+/* ---- phone: white rim, black bezel, dynamic island ---- */
+.orbit-showcase-phone {
+  position: relative;
+  grid-area: 1 / 1;
+  height: var(--phone-height);
+  aspect-ratio: var(--phone-ratio);
+  /* Thick black bezel inside a thin white titanium rim, like the reference. */
+  border: 11px solid #030303;
+  border-radius: 60px;
+  background: #030303;
+  box-shadow:
+    inset 0 0 0 1.5px #2b2c2e,
+    0 0 0 2px #0b0b0b,
+    0 0 0 4px #f0f2f3,
+    0 0 0 5px #8d9093,
+    0 34px 90px rgb(0 0 0 / 60%);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.orbit-showcase-status {
+  position: absolute;
+  z-index: 4;
+  inset: 0 0 auto;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 5px;
+  padding: 6px 22px 0 0;
+  color: #111;
+  pointer-events: none;
+}
+
+.orbit-showcase-status span {
+  position: absolute;
+  left: 27px;
+  top: 17px;
+  font: 600 15.5px/1 -apple-system, "SF Pro Text", Inter, system-ui, sans-serif;
+  letter-spacing: -.01em;
+}
+
+.orbit-showcase-island {
+  position: absolute;
+  z-index: 5;
+  top: 11px;
+  left: calc(50% - 47px);
+  width: 94px;
+  height: 27px;
+  border-radius: 20px;
+  background: #000;
+}
+
+.orbit-showcase-screens { position: absolute; inset: 0; }
+
+.orbit-showcase-screen {
+  --in: 0;
+  position: absolute;
+  inset: 0;
+  padding-top: 52px;
+  color: #111;
+  background:
+    linear-gradient(#d4e8f0 0 88px, transparent 88px),
+    linear-gradient(180deg, #cde6ee 0%, #cfe8ee 50%, #d2ecf0 100%);
+  /* The first screen is the base; later ones slide up over it. */
+  transform: translate3d(0, calc((1 - var(--in)) * 100%), 0);
+  will-change: transform;
+  font-family: -apple-system, "SF Pro Text", Inter, system-ui, sans-serif;
+}
+
+.orbit-showcase-screen:first-child { transform: none; }
+
+.orbit-showcase-title {
+  height: 28px;
+  margin-bottom: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14.5px;
+  font-weight: 700;
+  letter-spacing: -.01em;
+}
+
+.orbit-showcase-section {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 0 14px 10px 14px;
+}
+
+.orbit-showcase-section strong { display: block; font-size: 14px; font-weight: 700; letter-spacing: -.01em; }
+.orbit-showcase-section small { display: block; margin-top: 3px; color: #46535a; font-size: 12px; }
+
+.orbit-showcase-section i {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  border-radius: 50%;
+  background: #0b0b0b;
+  color: #fff;
+}
+
+/* One translucent panel; each row is a message-style entry with a face stack. */
+.orbit-showcase-cards { margin: 0 14px; border-radius: 6px; overflow: hidden; }
+
+.orbit-showcase-cards figure {
+  /* Each row flies in a beat after the one before it. */
+  --k: clamp(0, calc(var(--in) * 2.2 - var(--card) * .4), 1);
+  margin: 0;
+  padding: 15px 14px 14px;
+  background: rgb(255 255 255 / 46%);
+  border-top: 1px solid rgb(0 0 0 / 7%);
+  opacity: var(--k);
+  transform: translate3d(calc((1 - var(--k)) * 42px), calc((1 - var(--k)) * 70px), 0) rotate(calc((1 - var(--k)) * 6deg));
+  will-change: transform, opacity;
+}
+
+.orbit-showcase-cards figure:first-child { border-top: 0; }
+
+.orbit-showcase-cards figure > strong {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -.01em;
+}
+
+.orbit-showcase-cards figure > small { display: block; margin-top: 6px; color: #56646b; font-size: 11.5px; }
+
+.orbit-showcase-faces { display: flex; align-items: center; margin-top: 11px; }
+
+.orbit-showcase-faces img {
+  width: 22px;
+  height: 22px;
+  margin-right: -5px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid #e6f1f4;
+}
+
+.orbit-showcase-faces b {
+  display: grid;
+  place-items: center;
+  height: 22px;
+  margin-left: 4px;
+  padding: 0 6px;
+  border-radius: 11px;
+  background: #fff;
+  font-size: 10.5px;
+  font-weight: 600;
+}
+
+/* ---- copy beside the phone ---- */
+.orbit-showcase-copies {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.orbit-showcase-copy {
+  --visible: 0;
+  --shift: 0;
+  position: absolute;
+  top: 50%;
+  /* Never wider than the space left beside the phone. */
+  width: min(360px, calc(50vw - var(--phone-height) * .231 - 88px));
+  opacity: var(--visible);
+  transform: translate3d(0, calc(-50% - var(--shift) * 56px), 0);
+  will-change: transform, opacity;
+}
+
+/* Copy sits beside the phone; half the phone's width is 0.231 of its height. */
+.orbit-showcase-copy[data-side="left"] { right: calc(50% + var(--phone-height) * .231 + 64px); }
+.orbit-showcase-copy[data-side="right"] { left: calc(50% + var(--phone-height) * .231 + 64px); }
+
+.orbit-showcase-copy:not([inert]) { pointer-events: auto; }
+
+.orbit-landing main .orbit-showcase-copy h2 { max-width: 6em; font-size: clamp(44px, 5.2vw, 76px); line-height: .95; }
+.orbit-showcase-copy p { max-width: 300px; margin: 14px 0 23px; color: #d2d2d2; font-size: 17px; line-height: 1.3; }
+.orbit-showcase-copy .orbit-landing-button { min-height: 48px; border-radius: 100px; font-size: 16px; }
+
+.orbit-showcase:not([data-ready]) .orbit-showcase-copy,
+.orbit-showcase:not([data-ready]) .orbit-showcase-screen:not(:first-child) { visibility: hidden; }
+
+@media (max-width: 800px) {
+  .orbit-showcase { --showcase-height: 360svh; --phone-height: min(56svh, 470px); }
+  .orbit-showcase-stage { place-items: start center; padding-top: 86px; }
+  .orbit-showcase-phone { border-width: 7px; border-radius: 42px; }
+  .orbit-showcase-copy {
+    top: auto;
+    bottom: 28px;
+    left: 24px !important;
+    right: 24px !important;
+    width: auto;
+    text-align: center;
+    transform: translate3d(0, calc(var(--shift) * -40px), 0);
+  }
+  .orbit-showcase-copy p { max-width: none; margin: 8px 0 16px; font-size: 15px; }
+  .orbit-landing main .orbit-showcase-copy h2 { max-width: none; font-size: clamp(34px, 9vw, 46px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbit-showcase-screen, .orbit-showcase-cards figure, .orbit-showcase-copy { will-change: auto; }
+}
