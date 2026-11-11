@@ -212,8 +212,8 @@ export default function LandingPage() {
         <CampusMarquee />
 
         <section className="orbit-landing-intro">
-          <h2>Your campus. All in one place.</h2>
-          <p>Meet the people and find the plans that make college yours.</p>
+          <h2>Your campus. One place.</h2>
+          <p>Find your people and make plans at MUJ.</p>
           <div className="orbit-landing-intro-grid orbit-landing-wrap">
             {features.map((feature, index) => (
               <article key={feature.title}>
