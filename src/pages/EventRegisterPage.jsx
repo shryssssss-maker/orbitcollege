@@ -45,7 +45,7 @@ export default function EventRegisterPage() {
       email={o.authUser?.email}
       authUserId={o.authUser?.id}
       onSignIn={o.goToInitialPage}
-      onBack={() => navigate("/")}
+      onBack={() => navigate("/app")}
       onToast={o.showToast}
       onJoinCommunity={o.handleRegisterEvent}
       onOpenCommunity={openCommunity}

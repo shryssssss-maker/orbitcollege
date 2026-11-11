@@ -352,7 +352,7 @@ export default function App() {
     setJoinedIds((ids) => [...ids, mapped.id]);
     showToast("Community created");
     setShowCreate(false);
-    navigate("/");
+    navigate("/app");
   };
 
   const handleUpdateCommunity = async (id, updates) => {
@@ -641,14 +641,14 @@ export default function App() {
     );
   }
 
-  const TAB_FOR_PATH = { "": "home", explore: "explore", events: "events", profile: "profile", settings: "settings" };
+  const TAB_FOR_PATH = { app: "home", explore: "explore", events: "events", profile: "profile", settings: "settings" };
   const seg = location.pathname.replace(/^\/+|\/+$/g, "").split("/")[0];
   const activeTab = TAB_FOR_PATH[seg] || "home";
 
   const SUBPAGE_SEGMENTS = ["c", "create", "search", "tea"];
   const showingSubPage = SUBPAGE_SEGMENTS.includes(seg);
 
-  const goToTab = (tab) => navigate(tab === "home" ? "/" : `/${tab}`);
+  const goToTab = (tab) => navigate(tab === "home" ? "/app" : `/${tab}`);
 
   const setSelectedCommunity = (c) => { if (c?.id) navigate(`/c/${c.id}`); };
 

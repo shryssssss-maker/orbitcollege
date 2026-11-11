@@ -8,14 +8,15 @@ import {
   useLocation,
 } from "react-router-dom";
 import ErrorBoundary from "./components/ErrorBoundary.jsx";
-import App from "./App.jsx";
+import LandingPage from "./pages/LandingPage.jsx";
 import "./index.css";
 
-/* ── Eager: the shell itself, needed on every route ── */
+/* The app shell is loaded only on app routes. */
 // App is the layout -- it owns the data, provides it through context, and
 // renders <Outlet /> for whichever page the router picks.
 
 /* ── Lazy: one chunk per page, fetched when first visited ── */
+const App                 = lazy(() => import("./App.jsx"));
 const HomePage            = lazy(() => import("./pages/HomePage.jsx"));
 const ExplorePage         = lazy(() => import("./pages/ExplorePage.jsx"));
 const EventsPage          = lazy(() => import("./pages/EventsPage.jsx"));
@@ -74,8 +75,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
               </>
             ) : (
               <>
-                <Route path="/" element={<App />}>
-                  <Route index element={<HomePage />} />
+                <Route path="/" element={<LandingPage />} />
+                <Route element={<App />}>
+                  <Route path="app" element={<HomePage />} />
                   <Route path="explore" element={<ExplorePage />} />
                   <Route path="events" element={<EventsPage />} />
                   <Route path="events/:eventId/register" element={<EventRegisterPage />} />

@@ -1,0 +1,430 @@
+@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@900&family=Inter:wght@400;500;600;700;800&display=swap");
+
+.orbit-landing {
+  --landing-paper: #f7f7f7;
+  --landing-ink: #111;
+  --landing-display: "Barlow Condensed", Impact, "Arial Narrow", sans-serif;
+  background: var(--landing-paper);
+  color: var(--landing-ink);
+  font-family: Inter, Arial, sans-serif;
+}
+
+.orbit-landing h1,
+.orbit-landing main h2 {
+  font-family: var(--landing-display);
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: .98;
+}
+
+.orbit-landing main h2 { font-size: clamp(2.65rem, 4.1vw, 4.25rem); }
+.orbit-landing main h2 + p,
+.orbit-landing-section-head p { margin-top: 14px; }
+.orbit-landing-wrap { width: min(100% - 96px, 1440px); margin-inline: auto; }
+.orbit-landing-actions { display: flex; align-items: center; gap: 15px; }
+
+.orbit-landing-button {
+  display: inline-flex;
+  min-height: 64px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 29px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: #111;
+  color: #fdfdfb;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -.045em;
+  white-space: nowrap;
+}
+
+.orbit-landing-button.is-light { background: #fdfdfb; color: #111; }
+
+.orbit-landing-header {
+  --nav-top: clamp(20px, 2.1vw, 40px);
+  --nav-height: clamp(74px, 5.48vw, 104px);
+  --nav-gutter: clamp(24px, 2.05vw, 39px);
+  position: fixed;
+  z-index: 10;
+  inset: var(--nav-top) 0 auto;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.orbit-landing-nav {
+  position: relative;
+  width: min(100% - 64px, max(970px, 64.15vw), 1220px);
+  height: var(--nav-height);
+  overflow: hidden;
+  pointer-events: auto;
+  color: #111;
+  border: 1px solid rgb(255 255 255 / 26%);
+  border-radius: 55px;
+  background: rgb(247 247 245 / 81%);
+  backdrop-filter: blur(24px);
+  transition: width 420ms cubic-bezier(.22, 1, .36, 1),
+              height 420ms cubic-bezier(.22, 1, .36, 1),
+              border-radius 360ms cubic-bezier(.22, 1, .36, 1);
+}
+
+.orbit-landing-nav:focus-visible { outline: 2px solid #a49fff; outline-offset: 4px; }
+.orbit-landing-nav-row {
+  position: relative;
+  height: calc(var(--nav-height) - 2px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 18px 0 var(--nav-gutter);
+  transition: padding-right 420ms cubic-bezier(.22, 1, .36, 1);
+}
+.orbit-landing-mark { flex: none; width: clamp(35px, 2.53vw, 48px); height: auto; }
+.orbit-landing-nav .orbit-landing-button {
+  min-height: clamp(48px, 3.37vw, 64px);
+  padding-inline: clamp(16px, 1.53vw, 29px);
+  border-radius: 100px;
+  font-size: clamp(16px, 1.06vw, 20px);
+}
+
+.orbit-landing-nav-labels {
+  position: absolute;
+  left: 50%;
+  transform: translateX(calc(-50% - clamp(90px, 6.74vw, 128px)));
+  display: flex;
+  align-items: center;
+  gap: clamp(9px, .95vw, 18px);
+  font-size: clamp(16px, 1.06vw, 20px);
+  font-weight: 500;
+  letter-spacing: -.055em;
+  white-space: nowrap;
+}
+.orbit-landing-nav-labels li { padding: 5px 10px; border-radius: 5px; }
+
+.orbit-landing-menu {
+  position: absolute;
+  inset: clamp(114px, 8.58vw, 163px) var(--nav-gutter) auto;
+  display: grid;
+  grid-template-columns: 1fr min(28%, 425px);
+  gap: 30px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: opacity 180ms, transform 300ms ease, visibility 180ms;
+}
+
+.orbit-landing-menu-kicker {
+  color: #62625e;
+  text-transform: uppercase;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -.02em;
+}
+.orbit-landing-menu-list {
+  display: grid;
+  grid-template-rows: repeat(6, clamp(40px, 3.11vw, 59px));
+  grid-auto-flow: column;
+  grid-template-columns: repeat(2, max-content);
+  column-gap: clamp(26px, 3.05vw, 58px);
+  margin-top: 3px;
+  font-size: clamp(16px, 1.06vw, 20px);
+  font-weight: 500;
+  letter-spacing: -.04em;
+}
+.orbit-landing-menu-list li { display: flex; align-items: center; gap: clamp(9px, .74vw, 14px); }
+.orbit-landing-menu-list svg { width: clamp(19px, 1.32vw, 25px); height: auto; }
+.orbit-landing-menu-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: clamp(260px, 20vw, 380px);
+  border-radius: 10px;
+  padding: clamp(20px, 1.7vw, 32px) clamp(18px, 1.85vw, 35px);
+  background: #fbfbfb;
+}
+.orbit-landing-menu-card img {
+  position: absolute;
+  top: calc(-1 * clamp(44px, 3.84vw, 73px));
+  left: 50%;
+  width: min(68%, 290px);
+  height: auto;
+  transform: translateX(-50%);
+}
+.orbit-landing-menu-card h2 {
+  margin-top: 4px;
+  font-size: clamp(1.45rem, 2vw, 2.25rem);
+  font-weight: 700;
+  line-height: 1.04;
+  letter-spacing: -.055em;
+}
+.orbit-landing-menu-card p:last-child {
+  margin-top: 16px;
+  color: #62625e;
+  font-size: clamp(15px, 1vw, 19px);
+  line-height: 1.25;
+  letter-spacing: -.035em;
+}
+
+@media (min-width: 801px) {
+  .orbit-landing-nav:is(:hover, :focus-visible) {
+    width: min(100% - 64px, max(920px, 84.64vw), 1608px);
+    height: min(clamp(416px, 30.74vw, 584px), 100svh - var(--nav-top) - 12px);
+    overflow-y: auto;
+    border-radius: 21px;
+  }
+  .orbit-landing-nav:is(:hover, :focus-visible) .orbit-landing-nav-row { padding-right: var(--nav-gutter); }
+  .orbit-landing-nav:is(:hover, :focus-visible) .orbit-landing-nav-labels li:first-child { background: rgb(0 0 0 / 5%); }
+  .orbit-landing-nav:is(:hover, :focus-visible) .orbit-landing-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    transition-delay: 95ms, 40ms, 0ms;
+  }
+}
+
+.orbit-landing-hero {
+  min-height: 100svh;
+  display: flex;
+  align-items: flex-end;
+  padding: clamp(106px, 20svh, 175px) 0 clamp(24px, 7.5svh, 65px);
+  background: #000;
+  color: #fdfdfb;
+}
+.orbit-landing-hero-inner { width: min(73.5%, 1396px); margin-inline: auto; }
+.orbit-landing-hero h1 {
+  font-size: clamp(3.5rem, min(7.2vw, 15.65svh), 8.5rem);
+  line-height: 1;
+  letter-spacing: -.023em;
+  transform: scaleX(.87);
+  transform-origin: left;
+}
+.orbit-landing-hero p {
+  margin-top: clamp(12px, 2.53svh, 22px);
+  font-size: clamp(1.15rem, min(1.6vw, 3.55svh), 1.9rem);
+  letter-spacing: -.06em;
+  font-weight: 500;
+}
+.orbit-landing-hero .orbit-landing-actions { margin-top: clamp(20px, 6.45svh, 56px); }
+.orbit-landing-hero .orbit-landing-button {
+  min-height: clamp(44px, 7.36svh, 64px);
+  padding-inline: clamp(16px, 1.53vw, 29px);
+  font-size: clamp(16px, 1.06vw, 20px);
+}
+.orbit-landing-hero .orbit-landing-button:not(.is-light) { border-color: #4a4a4a; }
+
+.orbit-landing-strip {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 24px;
+  padding: 68px 40px 26px;
+  font-size: clamp(15px, 1.45vw, 24px);
+  font-weight: 700;
+  letter-spacing: -.05em;
+}
+.orbit-landing-strip span { display: flex; align-items: center; gap: 10px; }
+
+.orbit-landing-intro, .orbit-landing-events, .orbit-landing-campus {
+  text-align: center;
+  padding: clamp(76px, 9vw, 154px) 0;
+}
+.orbit-landing-intro > p,
+.orbit-landing-events > p,
+.orbit-landing-campus > p { padding-inline: 22px; }
+.orbit-landing-intro-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 26px;
+  margin: 72px auto 58px;
+}
+.orbit-landing-intro-art {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  height: clamp(250px, 28vw, 450px);
+  overflow: hidden;
+  padding-top: 36px;
+  border-radius: 16px;
+}
+.orbit-landing-intro-grid h3 { margin-top: 22px; font-size: 24px; font-weight: 750; letter-spacing: -.05em; }
+.orbit-landing-intro-grid p { margin-top: 4px; color: #575754; }
+
+.orbit-landing-occasions {
+  min-height: clamp(530px, 51vw, 830px);
+  overflow: hidden;
+  padding-top: 58px;
+}
+.orbit-landing-poster-fan {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: max-content;
+  margin: 20px 0 0 50%;
+  transform: translateX(-50%);
+}
+.orbit-landing-poster-fan > div {
+  width: clamp(115px, 16.7vw, 316px);
+  margin-right: clamp(-84px, -4vw, -36px);
+  transform: translateY(calc((8 - var(--poster-index)) * clamp(12px, 2vw, 36px))) rotate(-11deg) skewY(4deg);
+}
+.orbit-landing-poster {
+  position: relative;
+  display: grid;
+  align-items: end;
+  aspect-ratio: .78;
+  overflow: hidden;
+  background: var(--poster-color);
+  border-radius: 8px;
+  text-align: left;
+  isolation: isolate;
+}
+.orbit-landing-poster img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+.orbit-landing-poster div { display: grid; gap: 3px; padding: 10px 14px 12px; background: var(--poster-color); }
+.orbit-landing-poster small { font-size: 9px; font-weight: 700; letter-spacing: .05em; }
+.orbit-landing-poster strong { font-family: var(--landing-display); font-size: clamp(18px, 2.4vw, 38px); line-height: .95; text-transform: uppercase; }
+
+.orbit-landing-events { background: #fff; overflow: hidden; }
+.orbit-landing-event-list { display: grid; gap: 22px; margin: 54px 0 42px; }
+.orbit-landing-event-list li { font-size: clamp(1.8rem, 4.1vw, 4.8rem); font-weight: 600; letter-spacing: -.075em; line-height: 1.1; }
+.orbit-landing-event-tape {
+  display: flex;
+  gap: 12px;
+  width: max-content;
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
+.orbit-landing-event-tape .orbit-landing-poster { width: clamp(96px, 10vw, 160px); aspect-ratio: 1; }
+.orbit-landing-event-tape .orbit-landing-poster strong { font-size: clamp(14px, 1.6vw, 23px); }
+
+.orbit-landing-features { background: #111; color: #fff; }
+.orbit-landing-feature {
+  min-height: min(920px, 100svh);
+  display: grid;
+  grid-template-columns: 1fr 1.14fr 1fr;
+  justify-items: center;
+  align-items: center;
+  gap: clamp(30px, 5vw, 100px);
+  padding: 95px 0;
+}
+.orbit-landing-feature h2 { justify-self: start; max-width: 6em; }
+.orbit-landing-feature p { max-width: 300px; margin-bottom: 23px; color: #d2d2d2; font-size: 17px; }
+.orbit-landing-feature .orbit-landing-button { min-height: 48px; border-radius: 100px; font-size: 16px; }
+.orbit-landing-phone {
+  display: flex;
+  flex-direction: column;
+  width: min(100%, 310px);
+  min-height: 500px;
+  padding: 64px 19px 36px;
+  position: relative;
+  border: 9px solid #222;
+  border-radius: 42px;
+  background: var(--phone-color);
+  color: #111;
+  text-align: left;
+  box-shadow: 0 12px 35px rgb(0 0 0 / 20%), 0 0 0 1px #686868;
+}
+.orbit-landing-intro-art .orbit-landing-phone { width: 245px; min-width: 190px; margin-inline: 16px; }
+.orbit-landing-phone-camera { position: absolute; width: 70px; height: 18px; top: 11px; left: calc(50% - 35px); border-radius: 30px; background: #141414; }
+.orbit-landing-phone-brand { display: flex; align-items: center; gap: 5px; margin-bottom: 21px; font-size: 16px; font-weight: 800; }
+.orbit-landing-phone > strong { font-size: clamp(20px, 2vw, 28px); letter-spacing: -.055em; }
+.orbit-landing-phone-items { display: grid; gap: 9px; margin-top: 14px; }
+.orbit-landing-phone-items > div { display: flex; align-items: center; gap: 11px; min-height: 57px; padding: 8px; border-radius: 10px; background: #fff; font-size: 13px; font-weight: 600; }
+.orbit-landing-phone-items span { flex: none; display: grid; place-items: center; width: 32px; height: 32px; border-radius: 6px; background: var(--phone-color); }
+.orbit-landing-phone-items svg { width: 17px; }
+
+.orbit-landing-organizers { padding-block: 105px; }
+.orbit-landing-section-head { display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 28px; margin-bottom: 44px; }
+.orbit-landing-section-head .orbit-landing-button,
+.orbit-landing-join .orbit-landing-button { min-height: 48px; border-radius: 100px; font-size: 16px; }
+.orbit-landing-organizer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.orbit-landing-organizer-grid article {
+  display: grid;
+  align-content: space-between;
+  justify-items: start;
+  min-height: clamp(155px, 18vw, 320px);
+  padding: 26px;
+  border-radius: 12px;
+  background: var(--tile-color);
+}
+.orbit-landing-organizer-grid svg { width: clamp(40px, 6vw, 105px); height: auto; }
+.orbit-landing-organizer-grid h3 { font-size: clamp(18px, 2.1vw, 32px); font-weight: 800; letter-spacing: -.06em; line-height: 1.03; }
+.orbit-landing-campus { background: #fdfdfb; }
+.orbit-landing-campus-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-top: 46px; }
+.orbit-landing-campus-grid .orbit-landing-poster { aspect-ratio: .93; }
+.orbit-landing-join { position: relative; display: grid; place-items: center; min-height: 650px; text-align: center; overflow: hidden; isolation: isolate; }
+.orbit-landing-join .orbit-landing-button { margin: 16px 0 12px; }
+.orbit-landing-poster-ring { position: absolute; inset: 0; z-index: -1; }
+.orbit-landing-poster-ring > div {
+  position: absolute;
+  left: calc(50% - 30px);
+  top: calc(50% - 36px);
+  width: 60px;
+  transform: rotate(var(--angle)) translateY(-234px) rotate(var(--tilt));
+}
+.orbit-landing-poster-ring .orbit-landing-poster div { display: none; }
+.orbit-landing-footer { margin: 0 24px 24px; padding: 44px; background: #111; color: #fff; border-radius: 13px; }
+.orbit-landing-footer-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 24px; }
+.orbit-landing-footer-grid h2 { margin-bottom: 10px; font-size: 15px; font-weight: 700; }
+.orbit-landing-footer-grid li { color: #ccc; font-size: 14px; margin-bottom: 5px; }
+.orbit-landing-wordmark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .15em;
+  margin-top: 55px;
+  font-size: clamp(1.75rem, 12.5vw, 15rem);
+  font-weight: 800;
+  letter-spacing: -.095em;
+  line-height: .95;
+}
+.orbit-landing-wordmark svg { width: .78em; height: .78em; }
+
+@media (max-width: 1080px) {
+  .orbit-landing-hero-inner { width: calc(100% - 96px); }
+  .orbit-landing-nav-row { gap: 18px; padding-left: 23px; }
+  .orbit-landing-nav-labels { position: static; transform: none; gap: 3px; font-size: 16px; }
+  .orbit-landing-nav-labels li { padding-inline: 5px; }
+  .orbit-landing-nav .orbit-landing-button { min-height: 48px; padding-inline: 16px; font-size: 16px; }
+  .orbit-landing-menu { grid-template-columns: 1fr 36%; }
+}
+
+@media (max-width: 800px) {
+  .orbit-landing-header { top: 16px; }
+  .orbit-landing-nav { width: calc(100% - 28px); height: 66px; }
+  .orbit-landing-nav-row { height: 64px; padding: 0 10px 0 16px; }
+  .orbit-landing-mark { width: 34px; height: 34px; }
+  .orbit-landing-nav-labels { display: none; }
+  .orbit-landing-nav .orbit-landing-actions { gap: 8px; }
+  .orbit-landing-nav .orbit-landing-button { min-height: 43px; }
+  .orbit-landing-wrap, .orbit-landing-hero-inner { width: calc(100% - 40px); }
+  .orbit-landing-hero { padding-block: 106px clamp(24px, 6.4svh, 54px); }
+  .orbit-landing-hero h1 { font-size: clamp(2.75rem, min(12vw, 16svh), 6.5rem); }
+  .orbit-landing-hero .orbit-landing-actions { margin-top: clamp(18px, 4svh, 34px); gap: 10px; }
+  .orbit-landing-hero .orbit-landing-button { min-height: 52px; padding-inline: 15px; font-size: 16px; }
+  .orbit-landing-strip { justify-content: center; padding: 40px 20px 0; }
+  .orbit-landing-intro-grid { grid-template-columns: 1fr; max-width: 475px; margin-block: 44px; }
+  .orbit-landing-intro-grid article + article { margin-top: 12px; }
+  .orbit-landing-feature { grid-template-columns: 1fr; gap: 24px; text-align: center; padding-block: 58px; }
+  .orbit-landing-feature h2 { max-width: none; justify-self: center; }
+  .orbit-landing-feature .orbit-landing-phone { min-height: 385px; width: min(275px, 100%); }
+  .orbit-landing-organizer-grid { grid-template-columns: repeat(2, 1fr); }
+  .orbit-landing-organizer-grid article { padding: 15px; }
+  .orbit-landing-campus-grid { grid-template-columns: repeat(2, 1fr); }
+  .orbit-landing-campus-grid > :last-child { display: none; }
+  .orbit-landing-join { min-height: 470px; }
+  .orbit-landing-poster-ring > div { width: 42px; left: calc(50% - 21px); transform: rotate(var(--angle)) translateY(-158px) rotate(var(--tilt)); }
+  .orbit-landing-footer { margin: 0 12px 12px; padding: 25px; }
+  .orbit-landing-footer-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbit-landing-nav, .orbit-landing-nav-row, .orbit-landing-menu { transition: none; }
+}

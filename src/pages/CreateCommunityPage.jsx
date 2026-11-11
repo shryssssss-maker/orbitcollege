@@ -21,7 +21,7 @@ export default function CreateCommunityPage() {
                     onClick={() => navigate("/explore")}>
               Browse communities
             </Button>
-            <Button variant="soft" size="lg" className="w-full sm:flex-1" onClick={() => navigate("/")}>
+            <Button variant="soft" size="lg" className="w-full sm:flex-1" onClick={() => navigate("/app")}>
               Back
             </Button>
           </div>

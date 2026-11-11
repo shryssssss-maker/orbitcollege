@@ -10,7 +10,7 @@ export default function NotFoundPage() {
           That page does not exist, or it moved.
         </p>
         <Link
-          to="/"
+          to="/app"
           className="inline-grid place-items-center h-10 px-5 mt-6 rounded-full
             bg-solid text-solid-ink text-base font-semibold hover:opacity-90 transition-opacity"
         >
