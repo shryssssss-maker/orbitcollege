@@ -1,18 +1,13 @@
 import { useEffect, useRef, useState } from "react";
-import {
-  CalendarDays, Coffee, Flag, GraduationCap, Laptop, Mic2, Music2,
-  Orbit, Sparkles, Trophy, Users, Zap,
-} from "lucide-react";
+import { CalendarDays, Orbit, Sparkles, Users } from "lucide-react";
 import CampusEventsPreview from "./CampusEventsPreview.jsx";
+import LandingFooter from "./LandingFooter.jsx";
+import CampusCulture from "./CampusCulture.jsx";
 import OccasionsDeck from "./OccasionsDeck.jsx";
+import FeatureShowcase from "./FeatureShowcase.jsx";
+import SpiralCTA from "./SpiralCTA.jsx";
+import LandingHeader from "./LandingHeader.jsx";
 import "./landing.css";
-
-const categories = [
-  [CalendarDays, "Campus fests"], [Laptop, "Hackathons"],
-  [Music2, "Music & arts"], [GraduationCap, "Workshops"],
-  [Trophy, "Sports"], [Users, "Club meetups"],
-  [Coffee, "Hangouts"], [Flag, "Campus drives"], [Mic2, "Open mics"],
-];
 
 const campusHighlights = [
   { label: "MUJ", description: "Campus life at Manipal University Jaipur.", style: "university" },
@@ -44,69 +39,8 @@ const features = [
   { title: "Hear what’s happening", description: "Catch announcements, join the conversation, and share what’s on your mind in LocaliTea.", label: "Explore Orbit", screen: "LocaliTea", rows: ["What are you doing this weekend?", "Best spot to study on campus?", "Anyone going to the fest?"], color: "#ffe1e8" },
 ];
 
-const footer = [
-  ["Explore", "Clubs", "Communities", "Campus events", "LocaliTea"],
-  ["Get involved", "Find a club", "Join a community", "Register for an event"],
-  ["About", "OrbitCollege", "Manipal University Jaipur"],
-  ["Legal", "Terms of service", "Privacy policy"],
-  ["Support", "Contact"],
-];
-
 function PreviewButton({ children, light = false }) {
   return <button className={`orbit-landing-button${light ? " is-light" : ""}`} type="button" disabled>{children}</button>;
-}
-
-function LandingHeader() {
-  const [hidden, setHidden] = useState(false);
-
-  useEffect(() => {
-    let lastScrollY = Math.max(0, window.scrollY);
-
-    function updateHeader() {
-      const scrollY = Math.max(0, window.scrollY);
-      const distance = scrollY - lastScrollY;
-      if (scrollY > 0 && Math.abs(distance) < 4) return;
-
-      setHidden(scrollY > 0 && distance > 0);
-      lastScrollY = scrollY;
-    }
-
-    window.addEventListener("scroll", updateHeader, { passive: true });
-    return () => window.removeEventListener("scroll", updateHeader);
-  }, []);
-
-  return (
-    <header className="orbit-landing-header" data-hidden={hidden || undefined} inert={hidden ? "" : undefined}>
-      <nav className="orbit-landing-nav" aria-label="OrbitCollege overview" tabIndex={0}>
-        <div className="orbit-landing-nav-row">
-          <Orbit className="orbit-landing-mark" aria-label="OrbitCollege" role="img" strokeWidth={2.65} />
-          <ul className="orbit-landing-nav-labels">
-            {["Events", "Explore", "Communities", "For Clubs", "About"].map((label) => <li key={label}>{label}</li>)}
-          </ul>
-          <div className="orbit-landing-actions">
-            <PreviewButton>Join Orbit</PreviewButton>
-            <PreviewButton light>Log in</PreviewButton>
-          </div>
-        </div>
-        <div className="orbit-landing-menu">
-          <div>
-            <p className="orbit-landing-menu-kicker">Campus events</p>
-            <ul className="orbit-landing-menu-list">
-              {categories.map(([Icon, label]) => (
-                <li key={label}><Icon aria-hidden="true" size={25} strokeWidth={2.5} />{label}</li>
-              ))}
-            </ul>
-          </div>
-          <div className="orbit-landing-menu-card">
-            <img src="/landing/balloons.png" alt="" width="512" height="500" />
-            <p className="orbit-landing-menu-kicker">Discover</p>
-            <h2>Make campus plans</h2>
-            <p>Find fests, club meetups, and everything happening around MUJ.</p>
-          </div>
-        </div>
-      </nav>
-    </header>
-  );
 }
 
 function CampusMarquee() {
@@ -234,32 +168,9 @@ export default function LandingPage() {
 
         <CampusEventsPreview posters={posters} />
 
-        <section className="orbit-landing-features" aria-label="What you can do on Orbit">
-          {features.map((feature) => (
-            <article className="orbit-landing-feature orbit-landing-wrap" key={feature.title}>
-              <h2>{feature.title}</h2>
-              <PhonePreview {...feature} />
-              <div>
-                <p>{feature.description}</p>
-                <PreviewButton light>{feature.label}</PreviewButton>
-              </div>
-            </article>
-          ))}
-        </section>
+        <FeatureShowcase />
 
-        <section className="orbit-landing-organizers orbit-landing-wrap">
-          <div className="orbit-landing-section-head">
-            <div><h2>More than an event</h2><p>Give your campus community a place to grow.</p></div>
-            <div className="orbit-landing-actions"><PreviewButton light>For clubs</PreviewButton><PreviewButton>Join Orbit</PreviewButton></div>
-          </div>
-          <div className="orbit-landing-organizer-grid">
-            {[[Users, "Start a community"], [Flag, "Get your club discovered"], [CalendarDays, "List campus events"], [Zap, "Share updates"]].map(([Icon, label], index) => (
-              <article key={label} style={{ "--tile-color": ["#e7dbff", "#d7edfc", "#fde0e9", "#e8f8c5"][index] }}>
-                <Icon aria-hidden="true" strokeWidth={1.4} /><h3>{label}</h3>
-              </article>
-            ))}
-          </div>
-        </section>
+        <CampusCulture />
 
         <section className="orbit-landing-campus">
           <h2>Made for life at MUJ</h2>
@@ -269,24 +180,10 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section className="orbit-landing-join">
-          <div className="orbit-landing-poster-ring" aria-hidden="true">
-            {[...posters, ...posters, ...posters].map((poster, index) => (
-              <div key={index} style={{ "--angle": `${index * 20}deg`, "--tilt": `${index % 2 === 0 ? 12 : -12}deg` }}><Poster poster={poster} /></div>
-            ))}
-          </div>
-          <div><h2>Get into Orbit</h2><PreviewButton>Join Orbit</PreviewButton><p>College happens here.</p></div>
-        </section>
+        <SpiralCTA />
       </main>
 
-      <footer className="orbit-landing-footer">
-        <div className="orbit-landing-footer-grid">
-          {footer.map(([heading, ...items]) => (
-            <div key={heading}><h2>{heading}</h2><ul>{items.map((label) => <li key={label}>{label}</li>)}</ul></div>
-          ))}
-        </div>
-        <div className="orbit-landing-wordmark"><Orbit aria-hidden="true" />OrbitCollege</div>
-      </footer>
+      <LandingFooter />
     </div>
   );
 }
