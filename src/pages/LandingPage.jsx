@@ -3,6 +3,7 @@ import {
   CalendarDays, Coffee, Flag, GraduationCap, Laptop, Mic2, Music2,
   Orbit, Sparkles, Trophy, Users, Zap,
 } from "lucide-react";
+import CampusEventsPreview from "./CampusEventsPreview.jsx";
 import OccasionsDeck from "./OccasionsDeck.jsx";
 import "./landing.css";
 
@@ -231,16 +232,7 @@ export default function LandingPage() {
 
         <OccasionsDeck />
 
-        <section className="orbit-landing-events">
-          <h2>The best events on your campus</h2>
-          <p>See what’s happening around Manipal University Jaipur.</p>
-          <ul className="orbit-landing-event-list">
-            {["Campus Fests", "Hackathons", "Workshops", "Club Meetups", "All Events"].map((label) => <li key={label}>{label}</li>)}
-          </ul>
-          <div className="orbit-landing-event-tape" aria-hidden="true">
-            {[...posters, ...posters].map((poster, index) => <Poster key={index} poster={poster} />)}
-          </div>
-        </section>
+        <CampusEventsPreview posters={posters} />
 
         <section className="orbit-landing-features" aria-label="What you can do on Orbit">
           {features.map((feature) => (

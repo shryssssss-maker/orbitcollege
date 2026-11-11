@@ -1,0 +1,236 @@
+.orbit-event-preview {
+  --event-card-size: 130px;
+  --event-card-gap: 16px;
+  --event-label-gap: 34px;
+  --event-label-lift: 16px;
+  padding-block: 144px;
+  background: #fff;
+  overflow-x: clip;
+  text-align: center;
+}
+
+.orbit-event-preview-heading { padding-inline: 24px; }
+
+.orbit-landing main .orbit-event-preview-heading h2 {
+  font-size: 50px;
+  line-height: 1;
+  letter-spacing: -.009em;
+}
+
+.orbit-landing main .orbit-event-preview-heading p {
+  margin-top: 8px;
+  color: #454545;
+  font-size: 19.2px;
+  font-weight: 350;
+  line-height: 1.2;
+  letter-spacing: -.02em;
+  text-wrap: balance;
+}
+
+.orbit-event-preview-stage {
+  --event-row-height: 101.6px;
+  --event-row-gap: 40px;
+  position: relative;
+  margin-top: 72px;
+}
+
+.orbit-event-preview-list {
+  display: grid;
+  gap: var(--event-row-gap);
+}
+
+.orbit-event-preview-row {
+  display: grid;
+  justify-items: center;
+  height: var(--event-row-height);
+}
+
+.orbit-event-preview-label {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  height: 100%;
+  min-width: 0;
+  color: #111;
+  cursor: pointer;
+}
+
+.orbit-event-preview-label:focus-visible {
+  border-radius: 4px;
+  outline: 2px solid #615bcb;
+  outline-offset: 4px;
+}
+
+.orbit-event-preview-title {
+  font-size: 68.5px;
+  font-weight: 490;
+  line-height: 1.016;
+  letter-spacing: -.029em;
+  white-space: nowrap;
+  transition: transform 220ms cubic-bezier(.18, .7, .28, 1);
+}
+
+.orbit-event-preview-action {
+  position: absolute;
+  top: calc(50% + 22px);
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  color: #505050;
+  font-size: 16px;
+  line-height: 1.2;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(7px);
+  transition: opacity 150ms ease, transform 200ms ease-out;
+}
+
+.orbit-event-preview-row[data-active] .orbit-event-preview-title {
+  transform: translateY(calc(-1 * var(--event-label-lift)));
+}
+
+.orbit-event-preview-row[data-active] .orbit-event-preview-action {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.orbit-event-preview-gallery {
+  --event-gallery-clearance: min(448px, 100% - 2 * (var(--event-card-size) + var(--event-label-gap)));
+  --event-card-y: calc(var(--event-gallery-row) * (var(--event-row-height) + var(--event-row-gap)) + (var(--event-row-height) - var(--event-card-size)) / 2);
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--event-gallery-clearance) minmax(0, 1fr);
+  align-items: start;
+  pointer-events: none;
+}
+
+.orbit-event-preview-track {
+  display: flex;
+  gap: var(--event-card-gap);
+  min-width: 0;
+  pointer-events: none;
+}
+
+.orbit-event-preview-track.is-left {
+  justify-content: flex-end;
+  padding-right: var(--event-label-gap);
+}
+
+.orbit-event-preview-track.is-right { padding-left: var(--event-label-gap); }
+.orbit-event-preview-track.is-right { grid-column: 3; }
+
+.orbit-event-preview-slot {
+  flex: 0 0 var(--event-card-size);
+  transform: translateY(var(--event-card-y));
+}
+
+.orbit-event-preview-gallery[data-moving] .orbit-event-preview-slot {
+  transition: transform var(--event-spring-time) cubic-bezier(.23, .74, .27, 1.05);
+  transition-timing-function: linear(0, .12 8%, .47 21%, .8 38%, 1 57%, 1.045 68%, 1.015 83%, 1);
+}
+
+.orbit-event-preview-card {
+  position: relative;
+  width: var(--event-card-size);
+  height: var(--event-card-size);
+  transform: scale(0);
+  transition: transform 195ms cubic-bezier(.36, .02, .34, 1);
+}
+
+.orbit-event-preview-gallery[data-open] .orbit-event-preview-card {
+  transform: scale(1);
+  pointer-events: auto;
+}
+
+.orbit-event-preview-art {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  transform-origin: center top;
+  transition: transform 210ms cubic-bezier(.2, .65, .3, 1), border-radius 210ms ease;
+}
+
+.orbit-event-preview-art img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+}
+
+.orbit-event-preview-gallery[data-moving] .orbit-event-preview-art img { transition: opacity 165ms ease 55ms; }
+.orbit-event-preview-art img[data-current] { opacity: 1; }
+
+.orbit-event-preview-card figcaption {
+  position: absolute;
+  top: calc(100% - 16px);
+  width: 100%;
+  display: grid;
+  gap: 2px;
+  padding: 16px 8px 9px;
+  border-radius: 3px;
+  background: #fff;
+  box-shadow: 0 6px 20px rgb(0 0 0 / 9%);
+  color: #171717;
+  font-size: 11px;
+  line-height: 1.25;
+  text-align: left;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: opacity 150ms ease, transform 200ms ease-out;
+  pointer-events: none;
+}
+
+.orbit-event-preview-card figcaption span { color: #666; font-size: 9px; }
+
+@media (hover: hover) and (pointer: fine) {
+  .orbit-event-preview-card:hover .orbit-event-preview-art {
+    transform: translateY(8px) scale(.877);
+    border-radius: 2px;
+  }
+  .orbit-event-preview-card:hover figcaption {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 1100px) {
+  .orbit-event-preview {
+    --event-card-size: clamp(76px, 11vw, 130px);
+    --event-card-gap: 12px;
+    --event-label-gap: 20px;
+    padding-block: 100px;
+  }
+  .orbit-event-preview-title { font-size: clamp(38px, 6.35vw, 68.5px); }
+}
+
+@media (max-width: 600px) {
+  .orbit-event-preview {
+    --event-card-size: clamp(42px, 14vw, 65px);
+    --event-card-gap: 7px;
+    --event-label-gap: 9px;
+    --event-label-lift: 10px;
+    padding-block: 74px;
+  }
+  .orbit-landing main .orbit-event-preview-heading h2 { font-size: clamp(34px, 8vw, 46px); }
+  .orbit-landing main .orbit-event-preview-heading p { font-size: 16px; }
+  .orbit-event-preview-stage { --event-row-height: 72px; --event-row-gap: 18px; margin-top: 48px; }
+  .orbit-event-preview-title { font-size: clamp(29px, 9.2vw, 47px); }
+  .orbit-event-preview-action { top: calc(50% + 14px); font-size: 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbit-event-preview-title,
+  .orbit-event-preview-action,
+  .orbit-event-preview-gallery[data-moving] .orbit-event-preview-slot,
+  .orbit-event-preview-card,
+  .orbit-event-preview-art,
+  .orbit-event-preview-gallery[data-moving] .orbit-event-preview-art img,
+  .orbit-event-preview-card figcaption { transition: none; }
+}

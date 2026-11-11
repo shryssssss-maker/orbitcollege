@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@900&family=Inter:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@900&family=Inter:wght@350;400;490;500;600;700;800&display=swap");
 
 .orbit-landing {
   --landing-paper: #f7f7f7;
@@ -314,7 +314,7 @@
   opacity: 1;
   transition-delay: 230ms;
 }
-.orbit-landing-intro, .orbit-landing-events, .orbit-landing-campus {
+.orbit-landing-intro, .orbit-landing-campus {
   text-align: center;
   padding: clamp(76px, 9vw, 154px) 0;
 }
@@ -333,7 +333,6 @@
   text-wrap: balance;
 }
 .orbit-landing-intro > p,
-.orbit-landing-events > p,
 .orbit-landing-campus > p { padding-inline: 22px; }
 .orbit-landing-intro-grid {
   display: grid;
@@ -375,19 +374,6 @@
 .orbit-landing-poster div { display: grid; gap: 3px; padding: 10px 14px 12px; background: var(--poster-color); }
 .orbit-landing-poster small { font-size: 9px; font-weight: 700; letter-spacing: .05em; }
 .orbit-landing-poster strong { font-family: var(--landing-display); font-size: clamp(18px, 2.4vw, 38px); line-height: .95; text-transform: uppercase; }
-
-.orbit-landing-events { background: #fff; overflow: hidden; }
-.orbit-landing-event-list { display: grid; gap: 22px; margin: 54px 0 42px; }
-.orbit-landing-event-list li { font-size: clamp(1.8rem, 4.1vw, 4.8rem); font-weight: 600; letter-spacing: -.075em; line-height: 1.1; }
-.orbit-landing-event-tape {
-  display: flex;
-  gap: 12px;
-  width: max-content;
-  margin-left: 50%;
-  transform: translateX(-50%);
-}
-.orbit-landing-event-tape .orbit-landing-poster { width: clamp(96px, 10vw, 160px); aspect-ratio: 1; }
-.orbit-landing-event-tape .orbit-landing-poster strong { font-size: clamp(14px, 1.6vw, 23px); }
 
 .orbit-landing-features { background: #111; color: #fff; }
 .orbit-landing-feature {
