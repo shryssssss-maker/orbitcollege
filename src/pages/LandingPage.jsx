@@ -3,6 +3,7 @@ import {
   CalendarDays, Coffee, Flag, GraduationCap, Laptop, Mic2, Music2,
   Orbit, Sparkles, Trophy, Users, Zap,
 } from "lucide-react";
+import OccasionsDeck from "./OccasionsDeck.jsx";
 import "./landing.css";
 
 const categories = [
@@ -228,17 +229,7 @@ export default function LandingPage() {
           <PreviewButton>Explore Orbit</PreviewButton>
         </section>
 
-        <section className="orbit-landing-occasions">
-          <div className="orbit-landing-wrap">
-            <h2>A million reasons<br />to show up</h2>
-            <p>From your first club meetup to the biggest fest of the year.</p>
-          </div>
-          <div className="orbit-landing-poster-fan" aria-hidden="true">
-            {[...posters, ...posters.slice(0, 3)].map((poster, index) => (
-              <div key={index} style={{ "--poster-index": index }}><Poster poster={poster} /></div>
-            ))}
-          </div>
-        </section>
+        <OccasionsDeck />
 
         <section className="orbit-landing-events">
           <h2>The best events on your campus</h2>

@@ -1,0 +1,117 @@
+.orbit-occasions {
+  position: relative;
+  isolation: isolate;
+  height: max(590px, 100svh);
+  overflow-x: clip;
+  overflow-y: visible;
+}
+
+.orbit-occasions-heading {
+  width: min(100%, 1440px);
+  margin-inline: auto;
+  padding: 128px 64px 0;
+}
+
+.orbit-landing main .orbit-occasions-heading h2 {
+  font-size: 50px;
+  line-height: 1;
+}
+
+.orbit-landing main .orbit-occasions-heading p {
+  margin-top: 4px;
+  font-size: 19.2px;
+  line-height: 1.2;
+  letter-spacing: -.035em;
+}
+
+.orbit-occasions-deck {
+  --occasion-card-skew: 14.8deg;
+  --occasion-lift: clamp(120px, 11.72vw, 220px);
+  --occasion-settle: calc(var(--occasion-lift) * .15);
+  --occasion-raised-transform: translateY(calc(-1 * var(--occasion-lift))) rotate(12deg);
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.orbit-occasions-deck:not([data-ready]) { visibility: hidden; }
+
+.orbit-occasions-poster {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--occasion-card-size);
+  height: var(--occasion-card-size);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  pointer-events: none;
+  cursor: pointer;
+  touch-action: pan-y;
+}
+
+/* The hit area stays on the deck while the artwork lifts, so the card
+   remains hovered even when it moves away from the pointer. */
+.orbit-occasions-poster::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: skewY(var(--occasion-card-skew));
+  border-radius: 8px;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.orbit-occasions-poster-lift,
+.orbit-occasions-poster img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.orbit-occasions-poster-lift {
+  transition: transform 350ms cubic-bezier(.17, .66, .23, 1), translate 65ms ease-out;
+}
+
+.orbit-occasions-poster img {
+  translate: calc(var(--occasion-card-size) * var(--occasion-push-x, 0))
+    calc(var(--occasion-card-size) * var(--occasion-push-y, 0));
+  transform: skewY(var(--occasion-card-skew));
+  object-fit: cover;
+  border-radius: 8px;
+  background: var(--occasion-poster-color);
+  user-select: none;
+}
+
+.orbit-occasions-poster:is(:focus-visible, [aria-pressed="true"]) .orbit-occasions-poster-lift {
+  transform: var(--occasion-raised-transform);
+  translate: 0 var(--occasion-settle);
+  transition: transform 340ms cubic-bezier(.17, .66, .23, 1), translate 145ms ease-out 125ms;
+}
+
+.orbit-occasions-poster:focus-visible { outline: none; }
+.orbit-occasions-poster:focus-visible img { outline: 3px solid #615bcb; outline-offset: 4px; }
+
+@media (hover: hover) and (pointer: fine) {
+  .orbit-occasions-poster:hover .orbit-occasions-poster-lift {
+    transform: var(--occasion-raised-transform);
+    translate: 0 var(--occasion-settle);
+    transition: transform 340ms cubic-bezier(.17, .66, .23, 1), translate 145ms ease-out 125ms;
+  }
+  .orbit-occasions-poster:hover img { pointer-events: auto; }
+}
+
+@media (max-width: 800px) {
+  .orbit-occasions { height: clamp(460px, 82svh, 620px); }
+  .orbit-occasions-heading { padding: 70px 24px 0; }
+  .orbit-landing main .orbit-occasions-heading h2 { font-size: clamp(35px, 7vw, 50px); }
+  .orbit-landing main .orbit-occasions-heading p { font-size: 16px; }
+  .orbit-occasions-deck { --occasion-lift: clamp(74px, 20vw, 120px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbit-occasions-poster .orbit-occasions-poster-lift { transition: none; }
+  .orbit-occasions-poster:is(:hover, :focus-visible, [aria-pressed="true"]) .orbit-occasions-poster-lift { transition: none; }
+}

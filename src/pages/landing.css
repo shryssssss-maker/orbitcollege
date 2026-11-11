@@ -353,24 +353,6 @@
 .orbit-landing-intro-grid h3 { margin-top: 22px; font-size: 24px; font-weight: 750; letter-spacing: -.05em; }
 .orbit-landing-intro-grid p { margin-top: 4px; color: #575754; }
 
-.orbit-landing-occasions {
-  min-height: clamp(530px, 51vw, 830px);
-  overflow: hidden;
-  padding-top: 58px;
-}
-.orbit-landing-poster-fan {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  width: max-content;
-  margin: 20px 0 0 50%;
-  transform: translateX(-50%);
-}
-.orbit-landing-poster-fan > div {
-  width: clamp(115px, 16.7vw, 316px);
-  margin-right: clamp(-84px, -4vw, -36px);
-  transform: translateY(calc((8 - var(--poster-index)) * clamp(12px, 2vw, 36px))) rotate(-11deg) skewY(4deg);
-}
 .orbit-landing-poster {
   position: relative;
   display: grid;
