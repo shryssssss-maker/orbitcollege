@@ -51,6 +51,11 @@
   display: flex;
   justify-content: center;
   pointer-events: none;
+  transition: transform 280ms cubic-bezier(.22, 1, .36, 1);
+}
+
+.orbit-landing-header[data-hidden] {
+  transform: translateY(calc(-100% - var(--nav-top) - 4px));
 }
 
 .orbit-landing-nav {
@@ -426,5 +431,5 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .orbit-landing-nav, .orbit-landing-nav-row, .orbit-landing-menu { transition: none; }
+  .orbit-landing-header, .orbit-landing-nav, .orbit-landing-nav-row, .orbit-landing-menu { transition: none; }
 }

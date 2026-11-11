@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
   CalendarDays, Coffee, Flag, GraduationCap, Laptop, MapPin, Mic2, Music2,
   Orbit, Sparkles, Trophy, Users, Zap,
@@ -39,11 +40,26 @@ function PreviewButton({ children, light = false }) {
 }
 
 function LandingHeader() {
-  return () => window.removeEventListener("scroll", updateHeader);
+  const [hidden, setHidden] = useState(false);
+
+  useEffect(() => {
+    let lastScrollY = Math.max(0, window.scrollY);
+
+    function updateHeader() {
+      const scrollY = Math.max(0, window.scrollY);
+      const distance = scrollY - lastScrollY;
+      if (scrollY > 0 && Math.abs(distance) < 4) return;
+
+      setHidden(scrollY > 0 && distance > 0);
+      lastScrollY = scrollY;
+    }
+
+    window.addEventListener("scroll", updateHeader, { passive: true });
+    return () => window.removeEventListener("scroll", updateHeader);
   }, []);
 
   return (
-    <header className="orbit-landing-header">
+    <header className="orbit-landing-header" data-hidden={hidden || undefined} inert={hidden ? "" : undefined}>
       <nav className="orbit-landing-nav" aria-label="OrbitCollege overview" tabIndex={0}>
         <div className="orbit-landing-nav-row">
           <Orbit className="orbit-landing-mark" aria-label="OrbitCollege" role="img" strokeWidth={2.65} />
