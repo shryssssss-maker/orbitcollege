@@ -1,0 +1,103 @@
+.orbit-join {
+  --join-stage-height: 600px;
+  position: relative;
+  isolation: isolate;
+  height: 700px;
+  overflow: hidden;
+  background: var(--landing-paper, #f7f7f7);
+  text-align: center;
+}
+
+/* The spiral is centred on this stage; tiles are placed from its middle. */
+.orbit-join-stage {
+  position: absolute;
+  inset: 100px 0 auto;
+  height: var(--join-stage-height);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.orbit-join-tile {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.orbit-join-tile img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8%;
+  user-select: none;
+}
+
+.orbit-join-copy {
+  position: absolute;
+  z-index: 2;
+  top: 290px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+/* The pill's soft halo, in the page colour, keeps tiles from crowding the text. */
+.orbit-join-cta {
+  display: block;
+  padding: 32px 56px;
+  border: 0;
+  border-radius: 111px;
+  background: #111;
+  color: #fff;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  cursor: pointer;
+  box-shadow: 0 0 38px 30px var(--landing-paper, #f7f7f7);
+  transition: transform .2s cubic-bezier(.17, .66, .23, 1);
+}
+
+.orbit-join-cta:hover { transform: scale(1.03); }
+.orbit-join-cta:active { transform: scale(.98); }
+.orbit-join-cta:focus-visible { outline: 3px solid #615bcb; outline-offset: 6px; }
+
+.orbit-landing main .orbit-join-title {
+  margin: 0;
+  font-size: 50px;
+  line-height: 1;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.orbit-join-copy p {
+  max-width: 213px;
+  margin: 0;
+  color: #4b4b49;
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1.2;
+  letter-spacing: -.02em;
+  text-wrap: balance;
+}
+
+@media (max-width: 800px) {
+  /* Same proportions as the reference on phones: short stage, smaller pill. */
+  .orbit-join { --join-stage-height: 280px; height: 388px; }
+  .orbit-join-copy { top: 174px; }
+  .orbit-join-cta { padding: 20px 32px; box-shadow: 0 0 24px 18px var(--landing-paper, #f7f7f7); }
+  .orbit-landing main .orbit-join-title { font-size: 24px; letter-spacing: .5px; }
+  .orbit-join-copy p {
+    font-size: 16px;
+    text-shadow: 0 0 10px var(--landing-paper, #f7f7f7), 0 0 10px var(--landing-paper, #f7f7f7), 0 0 4px var(--landing-paper, #f7f7f7);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbit-join-cta { transition: none; }
+}
