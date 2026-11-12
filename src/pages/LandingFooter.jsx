@@ -16,6 +16,7 @@ const footerGroups = [
 export default function LandingFooter() {
   return (
     <footer className="orbit-closing">
+      <h2 className="orbit-closing-intro">Campus comes together</h2>
       <div className="orbit-closing-panels" aria-label="Host and explore events">
         {panels.map(({ label, title, image }) => (
           <figure className="orbit-closing-panel" key={label} tabIndex={0}>

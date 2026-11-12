@@ -4,6 +4,7 @@
   --landing-paper: #f7f7f7;
   --landing-ink: #111;
   --landing-display: "Barlow Condensed", Impact, "Arial Narrow", sans-serif;
+  --orbit-closing-background: color-mix(in srgb, var(--landing-paper), #000 var(--orbit-closing-darkness));
   background: var(--landing-paper);
   color: var(--landing-ink);
   font-family: Inter, Arial, sans-serif;

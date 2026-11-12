@@ -8,6 +8,7 @@ import FeatureShowcase from "./FeatureShowcase.jsx";
 import SpiralCTA from "./SpiralCTA.jsx";
 import LandingHeader from "./LandingHeader.jsx";
 import HeroConversation from "./HeroConversation.jsx";
+import useClosingPalette from "./useClosingPalette.js";
 import "./landing.css";
 
 const campusHighlights = [
@@ -131,8 +132,11 @@ function PhonePreview({ screen, rows, color }) {
 }
 
 export default function LandingPage() {
+  const landing = useRef(null);
+  useClosingPalette(landing);
+
   return (
-    <div className="orbit-landing">
+    <div className="orbit-landing" ref={landing}>
       <LandingHeader />
       <main>
         <section className="orbit-landing-hero" aria-labelledby="orbit-landing-title">

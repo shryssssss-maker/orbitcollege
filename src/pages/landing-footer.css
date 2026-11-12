@@ -1,15 +1,37 @@
 .orbit-closing {
   --closing-inset: 48px;
   --closing-section-space: 15svh;
-  border-top: clamp(60px, 11svh, 112px) solid #fff;
-  background: #000;
+  background: var(--orbit-closing-background, #000);
   color: #fafafa;
 }
+
+.orbit-landing[data-closing-scheme="light"] .orbit-closing {
+  --closing-muted: #111;
+  color: #111;
+}
+
+.orbit-closing-intro {
+  display: grid;
+  place-content: center;
+  min-height: calc(clamp(60px, 11svh, 112px) + var(--closing-section-space));
+  margin: 0;
+  padding-inline: var(--closing-inset);
+  color: #fff;
+  font-family: var(--landing-display);
+  font-size: 50px;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -.009em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.orbit-landing[data-closing-scheme="light"] .orbit-closing-intro { color: #000; }
 
 .orbit-closing-panels {
   display: flex;
   gap: 16px;
-  padding: var(--closing-section-space) var(--closing-inset) 0;
+  padding-inline: var(--closing-inset);
 }
 
 .orbit-closing-panel {
@@ -19,7 +41,7 @@
 }
 
 .orbit-closing-panel + .orbit-closing-panel { flex-basis: 130px; }
-.orbit-closing-panel:focus-visible { flex-grow: 2; outline: 2px solid #fafafa; outline-offset: 5px; }
+.orbit-closing-panel:focus-visible { flex-grow: 2; outline: 2px solid currentColor; outline-offset: 5px; }
 
 @media (hover: hover) and (pointer: fine) {
   .orbit-closing-panel:hover { flex-grow: 2; }
@@ -42,7 +64,7 @@
 }
 
 .orbit-closing-panel figcaption { margin-top: 16px; }
-.orbit-closing-panel figcaption span { display: block; color: #b6b6b6; font-size: 12px; line-height: 15px; }
+.orbit-closing-panel figcaption span { display: block; color: var(--closing-muted, #b6b6b6); font-size: 12px; line-height: 15px; }
 .orbit-closing-panel figcaption strong { display: block; font-size: 20px; font-weight: 400; line-height: 32px; }
 
 .orbit-closing-bottom {
@@ -55,7 +77,6 @@
 .orbit-closing-signoff { margin-bottom: 56px; }
 .orbit-closing-signoff h2 {
   margin-bottom: .5em;
-  color: #fafafa;
   font-size: 8rem;
   font-weight: 400;
   line-height: 1;
@@ -79,7 +100,7 @@
 .orbit-closing-links ul { width: 175px; }
 .orbit-closing-links ul:nth-child(3) { width: 260px; }
 .orbit-closing-links ul:nth-child(4) { width: 245px; }
-.orbit-closing-links li { padding: 8px 20px; color: #b0b0b0; font-size: 16px; line-height: 20px; }
+.orbit-closing-links li { padding: 8px 20px; color: var(--closing-muted, #b0b0b0); font-size: 16px; line-height: 20px; }
 
 .orbit-closing-brand {
   display: inline-flex;
@@ -106,6 +127,7 @@
 
 @media (max-width: 767px) {
   .orbit-closing { --closing-inset: 20px; --closing-section-space: 64px; }
+  .orbit-closing-intro { font-size: clamp(34px, 8vw, 46px); }
   .orbit-closing-panels { flex-direction: column; gap: 32px; }
   .orbit-closing-panel,
   .orbit-closing-panel + .orbit-closing-panel { flex-basis: auto; }

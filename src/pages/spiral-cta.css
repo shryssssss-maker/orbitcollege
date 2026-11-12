@@ -1,11 +1,18 @@
 .orbit-join {
+  --join-background: var(--orbit-closing-background, var(--landing-paper, #f7f7f7));
   --join-stage-height: 600px;
   position: relative;
   isolation: isolate;
   height: 700px;
   overflow: hidden;
-  background: var(--landing-paper, #f7f7f7);
+  background: var(--join-background);
   text-align: center;
+}
+
+.orbit-landing[data-closing-scheme="dark"] .orbit-join {
+  --join-caption: #fafafa;
+  --join-button-background: #fafafa;
+  --join-button-color: #111;
 }
 
 /* The spiral is centred on this stage; tiles are placed from its middle. */
@@ -52,13 +59,13 @@
   padding: 32px 56px;
   border: 0;
   border-radius: 111px;
-  background: #111;
-  color: #fff;
+  background: var(--join-button-background, #111);
+  color: var(--join-button-color, #fff);
   font: inherit;
   letter-spacing: inherit;
   text-transform: inherit;
   cursor: pointer;
-  box-shadow: 0 0 38px 30px var(--landing-paper, #f7f7f7);
+  box-shadow: 0 0 38px 30px var(--join-background);
   transition: transform .2s cubic-bezier(.17, .66, .23, 1);
 }
 
@@ -78,7 +85,7 @@
 .orbit-join-copy p {
   max-width: 213px;
   margin: 0;
-  color: #4b4b49;
+  color: var(--join-caption, color-mix(in srgb, #4b4b49, #000 calc(2 * var(--orbit-closing-darkness, 0%))));
   font-size: 18px;
   font-weight: 300;
   line-height: 1.2;
@@ -90,11 +97,11 @@
   /* Same proportions as the reference on phones: short stage, smaller pill. */
   .orbit-join { --join-stage-height: 280px; height: 388px; }
   .orbit-join-copy { top: 174px; }
-  .orbit-join-cta { padding: 20px 32px; box-shadow: 0 0 24px 18px var(--landing-paper, #f7f7f7); }
+  .orbit-join-cta { padding: 20px 32px; box-shadow: 0 0 24px 18px var(--join-background); }
   .orbit-landing main .orbit-join-title { font-size: 24px; letter-spacing: .5px; }
   .orbit-join-copy p {
     font-size: 16px;
-    text-shadow: 0 0 10px var(--landing-paper, #f7f7f7), 0 0 10px var(--landing-paper, #f7f7f7), 0 0 4px var(--landing-paper, #f7f7f7);
+    text-shadow: 0 0 10px var(--join-background), 0 0 10px var(--join-background), 0 0 4px var(--join-background);
   }
 }
 
