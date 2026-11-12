@@ -7,6 +7,7 @@ import OccasionsDeck from "./OccasionsDeck.jsx";
 import FeatureShowcase from "./FeatureShowcase.jsx";
 import SpiralCTA from "./SpiralCTA.jsx";
 import LandingHeader from "./LandingHeader.jsx";
+import HeroConversation from "./HeroConversation.jsx";
 import "./landing.css";
 
 const campusHighlights = [
@@ -136,12 +137,15 @@ export default function LandingPage() {
       <main>
         <section className="orbit-landing-hero" aria-labelledby="orbit-landing-title">
           <div className="orbit-landing-hero-inner">
-            <h1 id="orbit-landing-title">Campus<br />comes alive</h1>
-            <p>Discover events & find your people</p>
-            <div className="orbit-landing-actions">
-              <PreviewButton light>Explore events</PreviewButton>
-              <PreviewButton>Join Orbit</PreviewButton>
+            <div className="orbit-landing-hero-copy">
+              <h1 id="orbit-landing-title">Campus<br />comes alive</h1>
+              <p>Discover events & find your people</p>
+              <div className="orbit-landing-actions">
+                <PreviewButton light>Explore events</PreviewButton>
+                <PreviewButton>Join Orbit</PreviewButton>
+              </div>
             </div>
+            <div className="orbit-landing-hero-chat"><HeroConversation /></div>
           </div>
         </section>
 

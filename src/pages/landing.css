@@ -49,7 +49,17 @@
   background: #000;
   color: #fdfdfb;
 }
-.orbit-landing-hero-inner { width: min(73.5%, 1396px); margin-inline: auto; }
+.orbit-landing-hero { align-items: center; }
+/* Copy on the left, the group chat over a photo on the right, like the reference. */
+.orbit-landing-hero-inner {
+  width: min(73.5%, 1396px);
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 50px;
+}
+.orbit-landing-hero-chat { justify-self: end; width: min(100%, 548px); }
 .orbit-landing-hero h1 {
   font-size: clamp(3.5rem, min(7.2vw, 15.65svh), 8.5rem);
   line-height: 1;
@@ -286,6 +296,8 @@
 @media (max-width: 800px) {
   .orbit-landing-wrap, .orbit-landing-hero-inner { width: calc(100% - 40px); }
   .orbit-landing-hero { --hero-bottom-space: 0px; padding-block: 106px clamp(24px, 6.4svh, 54px); }
+  .orbit-landing-hero-inner { grid-template-columns: minmax(0, 1fr); gap: 36px; }
+  .orbit-landing-hero-chat { justify-self: center; width: min(100%, 420px); }
   .orbit-landing-hero h1 { font-size: clamp(2.75rem, min(12vw, 16svh), 6.5rem); }
   .orbit-landing-hero .orbit-landing-actions { margin-top: clamp(18px, 4svh, 34px); gap: 10px; }
   .orbit-landing-hero .orbit-landing-button { min-height: 52px; padding-inline: 15px; font-size: 16px; }
