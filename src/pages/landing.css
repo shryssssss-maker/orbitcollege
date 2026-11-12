@@ -177,11 +177,10 @@
   opacity: 1;
   transition-delay: 230ms;
 }
-.orbit-landing-intro, .orbit-landing-campus {
+.orbit-landing-intro {
   text-align: center;
-  padding: clamp(76px, 9vw, 154px) 0;
+  padding: clamp(30px, 2.45vw, 47px) 0 clamp(76px, 9vw, 154px);
 }
-.orbit-landing-intro { padding-top: clamp(30px, 2.45vw, 47px); }
 .orbit-landing main .orbit-landing-intro > h2 {
   padding-inline: 20px;
   font-size: clamp(2.25rem, 3.29vw, 3.9rem);
@@ -195,8 +194,7 @@
   letter-spacing: -.04em;
   text-wrap: balance;
 }
-.orbit-landing-intro > p,
-.orbit-landing-campus > p { padding-inline: 22px; }
+.orbit-landing-intro > p { padding-inline: 22px; }
 .orbit-landing-intro-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -214,29 +212,6 @@
 }
 .orbit-landing-intro-grid h3 { margin-top: 22px; font-size: 24px; font-weight: 750; letter-spacing: -.05em; }
 .orbit-landing-intro-grid p { margin-top: 4px; color: #575754; }
-
-.orbit-landing-poster {
-  position: relative;
-  display: grid;
-  align-items: end;
-  aspect-ratio: .78;
-  overflow: hidden;
-  background: var(--poster-color);
-  border-radius: 8px;
-  text-align: left;
-  isolation: isolate;
-}
-.orbit-landing-poster img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: -1;
-}
-.orbit-landing-poster div { display: grid; gap: 3px; padding: 10px 14px 12px; background: var(--poster-color); }
-.orbit-landing-poster small { font-size: 9px; font-weight: 700; letter-spacing: .05em; }
-.orbit-landing-poster strong { font-family: var(--landing-display); font-size: clamp(18px, 2.4vw, 38px); line-height: .95; text-transform: uppercase; }
 
 .orbit-landing-features { background: #111; color: #fff; }
 .orbit-landing-feature {
@@ -275,20 +250,8 @@
 .orbit-landing-phone-items svg { width: 17px; }
 
 .orbit-landing-join .orbit-landing-button { min-height: 48px; border-radius: 100px; font-size: 16px; }
-.orbit-landing-campus { background: #fdfdfb; }
-.orbit-landing-campus-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-top: 46px; }
-.orbit-landing-campus-grid .orbit-landing-poster { aspect-ratio: .93; }
 .orbit-landing-join { position: relative; display: grid; place-items: center; min-height: 650px; text-align: center; overflow: hidden; isolation: isolate; }
 .orbit-landing-join .orbit-landing-button { margin: 16px 0 12px; }
-.orbit-landing-poster-ring { position: absolute; inset: 0; z-index: -1; }
-.orbit-landing-poster-ring > div {
-  position: absolute;
-  left: calc(50% - 30px);
-  top: calc(50% - 36px);
-  width: 60px;
-  transform: rotate(var(--angle)) translateY(-234px) rotate(var(--tilt));
-}
-.orbit-landing-poster-ring .orbit-landing-poster div { display: none; }
 
 @media (max-width: 1080px) {
   .orbit-landing-hero-inner { width: calc(100% - 96px); }
@@ -313,10 +276,7 @@
   .orbit-landing-feature { grid-template-columns: 1fr; gap: 24px; text-align: center; padding-block: 58px; }
   .orbit-landing-feature h2 { max-width: none; justify-self: center; }
   .orbit-landing-feature .orbit-landing-phone { min-height: 385px; width: min(275px, 100%); }
-  .orbit-landing-campus-grid { grid-template-columns: repeat(2, 1fr); }
-  .orbit-landing-campus-grid > :last-child { display: none; }
   .orbit-landing-join { min-height: 470px; }
-  .orbit-landing-poster-ring > div { width: 42px; left: calc(50% - 21px); transform: rotate(var(--angle)) translateY(-158px) rotate(var(--tilt)); }
 }
 
 @media (prefers-reduced-motion: reduce) {

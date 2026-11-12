@@ -3,6 +3,7 @@ import { CalendarDays, Orbit, Sparkles, Users } from "lucide-react";
 import CampusEventsPreview from "./CampusEventsPreview.jsx";
 import LandingFooter from "./LandingFooter.jsx";
 import CampusCulture from "./CampusCulture.jsx";
+import CampusCommunities from "./CampusCommunities.jsx";
 import OccasionsDeck from "./OccasionsDeck.jsx";
 import FeatureShowcase from "./FeatureShowcase.jsx";
 import SpiralCTA from "./SpiralCTA.jsx";
@@ -107,15 +108,6 @@ function CampusMarquee() {
   );
 }
 
-function Poster({ poster }) {
-  return (
-    <div className="orbit-landing-poster" style={{ "--poster-color": poster.color }}>
-      <img src={poster.image} alt="" loading="lazy" />
-      <div><small>{poster.type}</small><strong>{poster.name}</strong></div>
-    </div>
-  );
-}
-
 function PhonePreview({ screen, rows, color }) {
   return (
     <div className="orbit-landing-phone" style={{ "--phone-color": color }} aria-hidden="true">
@@ -180,13 +172,7 @@ export default function LandingPage() {
 
         <CampusCulture />
 
-        <section className="orbit-landing-campus">
-          <h2>Made for life at MUJ</h2>
-          <p>Find your corner of campus.</p>
-          <div className="orbit-landing-campus-grid orbit-landing-wrap">
-            {posters.slice(0, 5).map((poster) => <Poster key={poster.name} poster={poster} />)}
-          </div>
-        </section>
+        <CampusCommunities />
 
         <SpiralCTA />
       </main>
