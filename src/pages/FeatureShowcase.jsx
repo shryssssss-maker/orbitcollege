@@ -38,14 +38,17 @@ const steps = [
 ];
 
 const last = steps.length - 1;
-// Seconds the screens take to catch up with the scroll (critically damped).
-const SMOOTH_TIME = 0.45;
 const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
-// Ease within each step so the phone dwells on a screen instead of constantly sliding.
-const dwell = (value) => {
-  const whole = Math.floor(value);
-  const t = clamp((value - whole - 0.22) / 0.56);
-  return Math.min(last, whole + t * t * (3 - 2 * t));
+
+// Scroll schedule in stage heights, measured from the reference: hold, slide,
+// hold, slide, hold. Each slide takes one full stage height of scrolling.
+const SLIDE_START = [0.6, 2.2];
+const SLIDE_LENGTH = 1;
+
+// Quartic in-out, the reference's "power3.inOut": slow start, quick middle, slow landing.
+const ease = (value) => {
+  const t = clamp(value);
+  return t < 0.5 ? 8 * t ** 4 : 1 - (-2 * t + 2) ** 4 / 2;
 };
 
 export default function FeatureShowcase() {
@@ -53,54 +56,39 @@ export default function FeatureShowcase() {
 
   useEffect(() => {
     const section = sectionRef.current;
+    const stage = section.querySelector(".orbit-showcase-stage");
     const screens = [...section.querySelectorAll("[data-screen]")];
     const copies = [...section.querySelectorAll("[data-copy]")];
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     let inView = false;
     let frame = 0;
-    let previousTime;
-    let smoothed;
-    let velocity = 0;
 
-    function render(time) {
+    function render() {
       const viewport = window.innerHeight;
-      const { top, height } = section.getBoundingClientRect();
+      const stageHeight = stage.clientHeight;
+      const { top } = section.getBoundingClientRect();
       const motion = !reducedMotion.matches;
-      const delta = Math.min(50, time - (previousTime ?? time));
-      previousTime = time;
 
-      // 0 -> 1 while the section scrolls into view, then 1 -> steps while it is pinned.
-      const entering = clamp((viewport - top) / viewport);
-      const pinned = clamp(-top / Math.max(1, height - viewport)) * last;
-      const target = entering + pinned;
-
-      if (smoothed === undefined || !motion) {
-        smoothed = target;
-        velocity = 0;
-      } else if (delta > 0) {
-        const dt = delta / 1000;
-        const omega = 2 / SMOOTH_TIME;
-        const x = omega * dt;
-        const decay = 1 / (1 + x + 0.48 * x * x + 0.235 * x ** 3);
-        const change = smoothed - target;
-        const temp = (velocity + omega * change) * dt;
-        velocity = (velocity - omega * temp) * decay;
-        smoothed = target + (change + temp) * decay;
-      }
-
-      const entry = clamp(smoothed);
-      const position = dwell(Math.max(0, smoothed - 1));
-
-      screens.forEach((screen, index) => {
-        screen.style.setProperty("--in", index === 0 ? entry : clamp(position - (index - 1)));
+      // 0 -> 1 while the section scrolls into view; the first screen's images fly in with it.
+      const entry = clamp((viewport - top) / viewport);
+      // How far we have scrolled while pinned, in stage heights.
+      const scrolled = Math.max(0, -top) / stageHeight;
+      const [first, second] = SLIDE_START.map((start) => {
+        const raw = clamp((scrolled - start) / SLIDE_LENGTH);
+        return motion ? ease(raw) : +(raw >= 0.5);
       });
-      copies.forEach((copy, index) => {
-        const offset = position - index;
-        const visible = Math.min(clamp(1 - Math.abs(offset) * 1.8), index === 0 ? clamp(entry * 2 - 0.4) : 1);
-        copy.style.setProperty("--visible", visible);
-        copy.style.setProperty("--shift", clamp(offset, -1, 1));
-        copy.inert = visible < 0.5;
+
+      // Screens rise inside the phone with the same two slides.
+      [entry, first, second].forEach((value, index) => screens[index].style.setProperty("--in", value));
+
+      // The copies sit one stage-height apart and slide up together.
+      const slides = [-first, 1 - first - second, 1 - second];
+      let nearest = 0;
+      slides.forEach((slide, index) => {
+        if (Math.abs(slide) < Math.abs(slides[nearest])) nearest = index;
+        copies[index].style.setProperty("--slide", `${slide * stageHeight}px`);
       });
+      copies.forEach((copy, index) => { copy.inert = index !== nearest; });
 
       if (!section.hasAttribute("data-ready")) section.dataset.ready = "";
       if (inView && motion) frame = requestAnimationFrame(render);
@@ -108,8 +96,6 @@ export default function FeatureShowcase() {
 
     function requestRender() {
       cancelAnimationFrame(frame);
-      previousTime = undefined;
-      smoothed = undefined; // entering view or resizing: snap, don't sweep from a stale value
       frame = requestAnimationFrame(render);
     }
 
@@ -121,12 +107,16 @@ export default function FeatureShowcase() {
     visibility.observe(section);
     window.addEventListener("resize", requestRender);
     reducedMotion.addEventListener("change", requestRender);
+    // Reduced motion has no running loop, so repaint on scroll while the section is near.
+    const onScroll = () => { if (inView) requestRender(); };
+    window.addEventListener("scroll", onScroll, { passive: true });
     requestRender();
 
     return () => {
       cancelAnimationFrame(frame);
       visibility.disconnect();
       window.removeEventListener("resize", requestRender);
+      window.removeEventListener("scroll", onScroll);
       reducedMotion.removeEventListener("change", requestRender);
     };
   }, []);
@@ -135,11 +125,13 @@ export default function FeatureShowcase() {
     <section className="orbit-showcase" aria-label="What you can do on Orbit" ref={sectionRef}>
       <div className="orbit-showcase-stage">
         <div className="orbit-showcase-copies">
-          {steps.map((step, index) => (
-            <div className="orbit-showcase-copy" data-copy data-side={index % 2 === 0 ? "left" : "right"} key={step.title}>
-              <h2>{step.title}</h2>
-              <p>{step.description}</p>
-              <button className="orbit-landing-button is-light" type="button" disabled>{step.label}</button>
+          {steps.map((step) => (
+            <div className="orbit-showcase-copy" data-copy key={step.title}>
+              <div className="orbit-showcase-heading"><h2>{step.title}</h2></div>
+              <div className="orbit-showcase-details">
+                <p>{step.description}</p>
+                <button className="orbit-landing-button is-light" type="button" disabled>{step.label}</button>
+              </div>
             </div>
           ))}
         </div>
